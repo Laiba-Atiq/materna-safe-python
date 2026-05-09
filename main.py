@@ -2,12 +2,14 @@ from cleaning import dataCleaning
 from visuals import visualisation
 from logistic_regression import logisticRegression,predictRisk
 from data_description import dataDescription
+from xgBoost import xgBoost
 
 orignal_df = dataDescription("Dataset.csv")
 df = dataCleaning(orignal_df)
 visualisation(df)
 
 logisticRegression(df)
+xgBoost(df)
 
 example = {
         "Age": 25, "Systolic BP": 140, "Diastolic": 90, "BS": 11,

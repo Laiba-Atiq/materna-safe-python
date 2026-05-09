@@ -1,8 +1,10 @@
 from cleaning import dataCleaning 
 from visuals import visualisation
 from logistic_regression import logisticRegression,predictRisk
+from data_description import dataDescription
 
-df = dataCleaning("Dataset.csv")
+orignal_df = dataDescription("Dataset.csv")
+df = dataCleaning(orignal_df)
 visualisation(df)
 
 logisticRegression(df)

@@ -3,12 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def dataCleaning(filePath):
-    df = pd.read_csv(filePath)
+def dataCleaning(df):
 
-    #missing values
+    print("\n\n" + "="  * 60)
+    print("DATA CLEANING: ")
+    print("=" * 60)
+
+    print("\n" + "-" * 60)
     print("Missing values:")
-
     missingVal = df.isnull().sum()
     missingValPct = (missingVal / len(df)) * 100
     missingValDf = pd.DataFrame({
@@ -43,6 +45,8 @@ def dataCleaning(filePath):
 
 
     #outliers:
+    print("\n" + "-" * 60)
+    print("Outliers: \n")
     plt.figure(figsize=(14, 8))
     plt.suptitle("Before Outlier Handling", fontsize=16)
 
@@ -53,6 +57,7 @@ def dataCleaning(filePath):
 
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()
+
 
     print("Count of outliers:")
     for col in medicalParameters:
@@ -68,17 +73,23 @@ def dataCleaning(filePath):
         df[col] = df[col].clip(lowerBound, upperBound)   
 
     #covert datatype
+    print("\n" + "-" * 60)
+    print("Datatype Conversion: ")
     df[medicalParameters] = df[medicalParameters].astype(float)
     df[binaryParameters] = df[binaryParameters].astype(int)
     df['Risk Level'] = df['Risk Level'].astype('category')
     print("\nData types after conversion:")
     print(df.dtypes)
 
+    print("\n" + "-" * 60)
+    print("Dimensionality: ")
     rows, cols = df.shape
     print("Shape of dataset:")
     print(f"Number of rows (samples): {rows}")
     print(f"Number of columns (attributes): {cols}")
 
+    print("\n" + "-" * 60)
+    print("Descriptive Statistics: ")
     print("Descriptive Statistics")
     print(df.describe())
 

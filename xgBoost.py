@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
@@ -76,4 +75,22 @@ def xgBoost(df):
     with open("xgboost_model.pkl", "wb") as f: pickle.dump(model, f)
     with open("xgboost_label_encoder.pkl", "wb") as f: pickle.dump(le, f)
 
-    return acc, prec_cls, rec_cls, f1_cls
+def predictRisk(sample: dict):
+
+    with open("xgboost_model.pkl", "rb") as f:
+        model = pickle.load(f)
+
+    with open("xgboost_label_encoder.pkl", "rb") as f:
+        le = pickle.load(f)
+
+    row  = np.array([[sample[f] for f in FEATURE_COLS]])
+    prob = model.predict_proba(row)[0]
+    pred = le.inverse_transform([np.argmax(prob)])[0]
+
+    result = {
+        "label":     pred,
+        "prob_high": round(prob[0], 4),
+        "prob_low":  round(prob[1], 4)
+    }
+
+    return result
